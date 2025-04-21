@@ -1,8 +1,8 @@
 function displayQParameter() {
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Check for 'q', then 'search', then 'text'
-    const searchQuery = urlParams.get('q') || urlParams.get('search') || urlParams.get('text');
+    // Check for 'q', then 'search', then 'text', then 'p'
+    const searchQuery = urlParams.get('q') || urlParams.get('search') || urlParams.get('text') || urlParams.get('p');
     
     if (searchQuery) {
         const decodedQuery = decodeURIComponent(searchQuery);
