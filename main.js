@@ -1,13 +1,12 @@
-console.log("aisearch started")
 function displayQParameter() {
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     // Check for 'q', then 'search', then 'text', then 'p'
     const searchQuery = urlParams.get('q') || urlParams.get('search') || urlParams.get('text') || urlParams.get('p');
-    
+
     if (searchQuery) {
         const decodedQuery = decodeURIComponent(searchQuery);
-        
+
         // Create styles for the container
         const style = document.createElement('style');
         style.textContent = `
@@ -56,16 +55,31 @@ function displayQParameter() {
             .close-btn:hover {
                 color: #202124;
             }
+            .open-tab-btn {
+                display: inline-block;
+                margin-top: 16px;
+                padding: 8px 16px;
+                font-size: 14px;
+                color: #fff;
+                background-color: #1a73e8;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .open-tab-btn:hover {
+                background-color: #1558b0;
+            }
         `;
         document.head.appendChild(style);
 
         // Create container elements
         const container = document.createElement('div');
         container.id = 'q-parameter-container';
-        
+
         const title = document.createElement('h2');
         title.textContent = 'AI Search';
-        
+
         // Create close button
         const closeBtn = document.createElement('button');
         closeBtn.className = 'close-btn';
@@ -73,15 +87,25 @@ function displayQParameter() {
         closeBtn.onclick = () => {
             container.style.display = 'none';
         };
-        
+
         const content = document.createElement('div');
         content.className = 'content loading';
         content.textContent = 'Loading...';
+
+        // Create "Open in new tab" button
+        const openTabBtn = document.createElement('button');
+        openTabBtn.className = 'open-tab-btn';
+        openTabBtn.textContent = 'Open in New Tab';
+        openTabBtn.onclick = () => {
+            const newTabUrl = `https://chatgpt.com/?q=${encodeURIComponent(decodedQuery)}`;
+            window.open(newTabUrl, '_blank');
+        };
 
         // Add elements to container
         title.appendChild(closeBtn);
         container.appendChild(title);
         container.appendChild(content);
+        container.appendChild(openTabBtn);
 
         // Add to document body
         document.body.appendChild(container);
@@ -89,7 +113,7 @@ function displayQParameter() {
         // Fetch AI response
         fetch("https://ai.aerioncloud.com/v1/chat/completions", {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: "gpt-4o",
                 messages: [
@@ -104,18 +128,18 @@ function displayQParameter() {
                 ]
             })
         })
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
-        .then(data => {
-            content.className = 'content';
-            content.textContent = data.choices[0].message.content;
-        })
-        .catch(error => {
-            container.style.display = 'none';
-            alert('AiSearch isn\'t available on this website.');
-        });
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                content.className = 'content';
+                content.textContent = data.choices[0].message.content;
+            })
+            .catch(error => {
+                container.style.display = 'none';
+                alert('AiSearch isn\'t available on this website.');
+            });
     } else {
         alert('AiSearch isn\'t available on this website.');
     }
