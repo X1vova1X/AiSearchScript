@@ -56,9 +56,10 @@ function displayQParameter() {
                 color: #202124;
             }
             .open-tab-btn {
-                display: inline-block;
-                margin-top: 16px;
-                padding: 8px 16px;
+                display: block;
+                margin: 16px 0 0 0; /* Space between the button and other elements */
+                padding: 12px 16px;
+                width: calc(100% - 32px); /* Full width minus padding (16px on each side) */
                 font-size: 14px;
                 color: #fff;
                 background-color: #1a73e8;
@@ -92,10 +93,10 @@ function displayQParameter() {
         content.className = 'content loading';
         content.textContent = 'Loading...';
 
-        // Create "Open in new tab" button
+        // Create "Open in ChatGPT" button
         const openTabBtn = document.createElement('button');
         openTabBtn.className = 'open-tab-btn';
-        openTabBtn.textContent = 'Open in New Tab';
+        openTabBtn.textContent = 'Open in ChatGPT';
         openTabBtn.onclick = () => {
             const newTabUrl = `https://chatgpt.com/?q=${encodeURIComponent(decodedQuery)}`;
             window.open(newTabUrl, '_blank');
