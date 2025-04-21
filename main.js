@@ -98,7 +98,7 @@ function displayQParameter() {
         openTabBtn.className = 'open-tab-btn';
         openTabBtn.textContent = 'Open in ChatGPT';
         openTabBtn.onclick = () => {
-            const newTabUrl = `https://chatgpt.com/?q=${encodeURIComponent(decodedQuery)}`;
+            const newTabUrl = `https://chatgpt.com/?q=${encodeURIComponent(`This query was searched on Google and then a human opened it in ChatGPT: ${decodedQuery}`)}`;
             window.open(newTabUrl, '_blank');
         };
 
