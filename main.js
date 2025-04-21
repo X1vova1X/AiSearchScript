@@ -1,3 +1,4 @@
+console.log("aisearch started")
 function displayQParameter() {
     const urlParams = new URLSearchParams(window.location.search);
     
