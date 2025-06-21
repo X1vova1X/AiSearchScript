@@ -103,6 +103,18 @@ javascript:(function() {
         .close-btn:hover {
           color: #202124;
         }
+        .open-chatgpt-btn {
+          margin-top: 16px;
+          padding: 8px 12px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        .open-chatgpt-btn:hover {
+          background-color: #0056b3;
+        }
       `;
       document.head.appendChild(style);
 
@@ -121,9 +133,18 @@ javascript:(function() {
       content.className = 'content';
       content.textContent = 'Analyzing page content...';
 
+      const chatGptButton = document.createElement('button');
+      chatGptButton.className = 'open-chatgpt-btn';
+      chatGptButton.textContent = 'Open in ChatGPT';
+      chatGptButton.onclick = () => {
+        const query = new URLSearchParams(window.location.search).get('q');
+        window.open(`https://chatgpt.com/?q=This question was Googled by user, and then asked you about it: ${encodeURIComponent(query)}`, '_blank');
+      };
+
       title.appendChild(closeBtn);
       container.appendChild(title);
       container.appendChild(content);
+      container.appendChild(chatGptButton);
       document.body.appendChild(container);
 
       const pageContent = document.body.innerText;
@@ -138,13 +159,13 @@ javascript:(function() {
             {
               role: "system",
               content: "Generate a comprehensive Markdown summary of this webpage. Use:\n" +
-                      "- ## Headings for sections\n" + 
                       "- **Bold** for key terms\n" +
                       "- Lists for important points\n" +
                       "- Code blocks for technical content\n" +
                       "- Tables where appropriate\n" +
                       "- Keep under 500 words\n" +
-                      "- Black text formatting"
+                      "- Black text formatting" +
+                      "- Ignore AI overview."
             },
             {
               role: "user",
