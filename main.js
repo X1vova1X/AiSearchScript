@@ -135,10 +135,11 @@ javascript:(function() {
 
       const chatGptButton = document.createElement('button');
       chatGptButton.className = 'open-chatgpt-btn';
-      chatGptButton.textContent = 'Open in ChatGPT';
+      chatGptButton.style.width = '100%';
+      chatGptButton.textContent = 'Ask a follow-up question';
       chatGptButton.onclick = () => {
         const query = new URLSearchParams(window.location.search).get('q');
-        window.open(`https://chatgpt.com/?q=This question was Googled by user, and then asked you about it: ${encodeURIComponent(query)}`, '_blank');
+        window.open(`https://chatgpt.com/?q=This question was Googled by user, and then asked you about it (for follow-up questions). Don't add any intros or outros. ${encodeURIComponent(query)}`, '_blank');
       };
 
       title.appendChild(closeBtn);
@@ -164,8 +165,9 @@ javascript:(function() {
                       "- Code blocks for technical content\n" +
                       "- Tables where appropriate\n" +
                       "- Keep under 500 words\n" +
-                      "- Black text formatting" +
-                      "- Ignore AI overview."
+                      "- Black text formatting\n" +
+                      "- Ignore AI overview\n" +
+                      "- Don't add intro or outro\n"
             },
             {
               role: "user",
